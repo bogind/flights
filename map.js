@@ -1,5 +1,5 @@
 var map = new mapboxgl.Map({
-    container: 'map', // container id
+    container: 'map', 
     style: {
         "version": 8,
         "sources": {
@@ -18,7 +18,7 @@ var map = new mapboxgl.Map({
         }]
     },
     center: [34.799722, 31.258889], 
-    zoom: 7,
+    zoom: 6,
     attributionControl: false
 });
 map.addControl(new mapboxgl.NavigationControl());
@@ -55,14 +55,11 @@ map.on('load', function () {
                     });
                 plane = turf.transformScale(plane, 150);
                 plane = turf.transformRotate(plane, -31);
-
-                
-                //var center = turf.centroid(plane)
                 
                 center = [data.states[0][5],data.states[0][6]]
-                //console.log(center)
+                
                 coords = plane.features[0].geometry.coordinates[0]
-                //coords = line.geometry.coordinates
+           
                 coords = plane.features[0].geometry.coordinates[0]
 
                 for(p in data.states){
@@ -96,7 +93,7 @@ map.on('load', function () {
                     var formattedTime = hours + ':' + minutes.substr(-2) + ':' + seconds.substr(-2);
                     feature.properties["time_position"] = formattedTime
                     feature.properties["on_ground"] = data.states[p][8]
-                    feature.properties["velocity"] = data.states[p][9]
+                    feature.properties["velocity"] = data.states[p][9]*3.6
                     feature.properties["center"] = [data.states[p][5],data.states[p][6]]
                     feature.properties["bearing"] = data.states[p][10]
                     feature.properties["base_height"]  = data.states[p][7]
@@ -104,19 +101,6 @@ map.on('load', function () {
                     geojson.features.push(feature)
                     }
                 }
-                
-                /*points = []
-                for(j in distances){
-                    distance = distances[j]
-                    bearing = bearings[j]
-                    point = turf.destination(center, distance, bearing);
-                    points.push(point.geometry.coordinates)
-                }
-        
-                var newPlane = turf.polygon([points])
-                newPlane = turf.transformRotate(newPlane, data.states[0][10]);
-                newPlane = turf.transformScale(newPlane, 150);
-                */
                 
                 map.addLayer({
                     'id': 'shadows',
@@ -129,7 +113,7 @@ map.on('load', function () {
                         'fill-opacity': 0.4
                     }
                     });
-                //newPlane2 = polygonToMarker([data.states[0][5],data.states[0][6]], coords,  data.states[0][10] )
+                
                 
                 map.addLayer({
                     'id': 'planes',
@@ -144,7 +128,7 @@ map.on('load', function () {
                         'fill-extrusion-base':  ['get', 'base_height']
                     }
                     });
-                    //map.setCenter([34.7565,33.2611])
+                   
             })
             popup = new mapboxgl.Popup()
             map.on('click', 'planes', function (e) {
@@ -154,7 +138,7 @@ map.on('load', function () {
                 "Call Sign: "+e.features[0].properties.callsign+"<br>"+
                 "Origin Country: "+e.features[0].properties.origin_country+"<br>"+
                 //""+e.features[0].properties.time_position+"<br>"+
-                "Velocity: "+e.features[0].properties.velocity+" m/s <br>"+
+                "Velocity: "+e.features[0].properties.velocity+" km/h <br>"+
                 "Bearing: "+e.features[0].properties.bearing+"&#176;<br>"+
                 "Barometric Height: "+e.features[0].properties.base_height+" meters<br>"+
                 ""+((e.features[0].properties.on_ground)? "<span style='color: green;'>On The Ground</span>": "<span style='color: blue;'>In The Air</span>");
@@ -169,38 +153,16 @@ map.on('load', function () {
                 .addTo(map);
                 });
 
-                /*map.on('click', 'shadows', function (e) {
-                    var coordinates = JSON.parse(e.features[0].properties.center);
-                    
-                    var description = "I'm just a shadow,<br> try clicking on the actual plane";
-                    while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-                    coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-                    }
-                     
-                    popup
-                    .setLngLat(coordinates)
-                    .setHTML(description)
-                    .addTo(map);
-                });*/
+                
                 map.on('mouseenter', 'planes', function () {
                     map.getCanvas().style.cursor = 'pointer';
                 });
                      
-                    // Change it back to a pointer when it leaves.
+    
                 map.on('mouseleave', 'planes', function () {
                     map.getCanvas().style.cursor = '';
                 });
                 
-                /*map.on('mouseenter', 'shadows', function () {
-                    map.getCanvas().style.cursor = 'pointer';
-                });
-                     
-                    // Change it back to a pointer when it leaves.
-                map.on('mouseleave', 'shadows', function () {
-                    map.getCanvas().style.cursor = '';
-                });*/
-                
-
     })
 
     
