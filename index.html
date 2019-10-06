@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v1.3.1/mapbox-gl.css' rel='stylesheet' />
+    <script src="https://npmcdn.com/@turf/turf/turf.min.js"></script>
+    <script src="./geometry.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous"></script>
+    <style>
+        body { margin:0; padding:0; }
+        #map { position:absolute; top:1vh; bottom:1vh; left:1vw; right:1vw; width:98%; }
+    </style>
+</head>
+<body>
+
+<script src='https://unpkg.com/three@0.106.2/build/three.min.js'></script>
+<script src="https://unpkg.com/three@0.106.2/examples/js/loaders/GLTFLoader.js"></script>
+<div id='map'></div>
+<script src="./map.js">
+</script>
+
+</body>
+</html>
