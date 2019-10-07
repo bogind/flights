@@ -37,9 +37,6 @@ map.on('load', function () {
         data = response;
         geojson = {'type': "FeatureCollection",'features':[]}
         
-        
-        
-
             $.getJSON('./plane.geojson',function(response){
                 plane = response;
                 map.addLayer({
@@ -53,7 +50,7 @@ map.on('load', function () {
                         'fill-opacity': 0.9
                     }
                     });
-                plane = turf.transformScale(plane, 150);
+                //plane = turf.transformScale(plane, 150);
                 plane = turf.transformRotate(plane, -31);
                 
                 center = [data.states[0][5],data.states[0][6]]
@@ -72,7 +69,7 @@ map.on('load', function () {
                         },
                         geometry: {
                         type: "Polygon",
-                        coordinates: polygonToMarker([data.states[p][5],data.states[p][6]], coords,  data.states[p][10] )["geometry"]["coordinates"]
+                        coordinates: polygonToMarker([data.states[p][5],data.states[p][6]], coords,  data.states[p][10], 150 )["geometry"]["coordinates"]
                         },
                         crs: {
                         type: "name",
