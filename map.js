@@ -51,14 +51,17 @@ map.on('load', function () {
                     }
                     });
                 //plane = turf.transformScale(plane, 150);
+                
+                
                 plane = turf.transformRotate(plane, -31);
+                originalPlane = plane
                 
                 center = [data.states[0][5],data.states[0][6]]
                 
                 coords = plane.features[0].geometry.coordinates[0]
            
                 coords = plane.features[0].geometry.coordinates[0]
-
+                reloadPlanes = function(){
                 for(p in data.states){
                     if(data.states[p][5]){
                     
@@ -99,6 +102,10 @@ map.on('load', function () {
                     }
                 }
                 
+                if(map.getLayer('shadows')){
+                    map.removeLayer('shadows')
+                    map.removeSource('shadows')
+                }
                 map.addLayer({
                     'id': 'shadows',
                     'type': 'fill',
@@ -112,6 +119,10 @@ map.on('load', function () {
                     });
                 
                 
+                if(map.getLayer('planes')){
+                    map.removeLayer('planes')
+                    map.removeSource('planes')
+                }
                 map.addLayer({
                     'id': 'planes',
                     'type': 'fill-extrusion',
@@ -125,7 +136,10 @@ map.on('load', function () {
                         'fill-extrusion-base':  ['get', 'base_height']
                     }
                     });
-                   
+            }
+            
+            reloadPlanes()
+            
             })
             popup = new mapboxgl.Popup()
             map.on('click', 'planes', function (e) {
@@ -160,6 +174,15 @@ map.on('load', function () {
                     map.getCanvas().style.cursor = '';
                 });
                 
+    }).then(function(){
+        
+        setInterval( function(){
+            $.getJSON('https://opensky-network.org/api/states/all',function(response){
+            data = response;
+            geojson = {'type': "FeatureCollection",'features':[]}
+            reloadPlanes()
+        })
+        } , 5000 )
     })
 
     

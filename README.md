@@ -6,3 +6,5 @@ It's possible to use [MapBox GL JS](https://docs.mapbox.com/mapbox-gl-js/overvie
 The planes' heading is based on the bearing reported, their base height is based on barometric altitude reported,
 and the height for all of them is 20 meters.
 ### Each plane is drawn 150 times larger than a normal plane size.
+
+### The locations are updated every 5 seconde.
